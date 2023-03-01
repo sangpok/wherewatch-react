@@ -1,0 +1,119 @@
+{
+  "adult": false,
+  "backdrop_path": "/xzEr0WfpJjWtYvTGxw5N5jcAGW8.jpg",
+  "created_by": [
+    {
+      "id": 3262846,
+      "credit_id": "617c6e56e93e950042c9a5fd",
+      "name": "Lee Na-eun",
+      "gender": 1,
+      "profile_path": null
+    }
+  ],
+  "episode_run_time": [60],
+  "first_air_date": "2021-12-06",
+  "genres": [
+    { "id": 35, "name": "코미디" },
+    { "id": 18, "name": "드라마" }
+  ],
+  "homepage": "https://programs.sbs.co.kr/drama/ourbelovedsummer",
+  "id": 135897,
+  "in_production": false,
+  "languages": ["ko"],
+  "last_air_date": "2022-01-25",
+  "last_episode_to_air": {
+    "air_date": "2022-01-25",
+    "episode_number": 16,
+    "id": 3336470,
+    "name": "그 해 우리는",
+    "overview": "함께 유학 가고 싶다는 웅의 제안을 진지하게 고민하는 연수.  자신이 '진짜' 원하는 삶이 무엇인지, 처음으로 고민해 본다.  마침내 고민을 끝낸 연수는 웅에게 답을 전하는데...",
+    "production_code": "",
+    "runtime": 63,
+    "season_number": 1,
+    "show_id": 135897,
+    "still_path": "/sD8MfoPjluK4owATgOppRXWyc5x.jpg",
+    "vote_average": 0.0,
+    "vote_count": 0
+  },
+  "name": "그 해 우리는",
+  "next_episode_to_air": null,
+  "networks": [
+    {
+      "id": 156,
+      "name": "SBS",
+      "logo_path": "/uHQFPvRTlpgaIFQVN8eKWEnFOll.png",
+      "origin_country": "KR"
+    }
+  ],
+  "number_of_episodes": 16,
+  "number_of_seasons": 1,
+  "origin_country": ["KR"],
+  "original_language": "ko",
+  "original_name": "그 해 우리는",
+  "overview": "헤어진 연인이 고등학교 시절 촬영한 다큐멘터리의 역주행 인기로 강제 소환되면서 펼쳐지는 청춘들의 첫사랑 역주행 로맨스",
+  "popularity": 27.093,
+  "poster_path": "/sXv8mdywUhVgJKyDL16BeiHhtHl.jpg",
+  "production_companies": [
+    {
+      "id": 119174,
+      "logo_path": "/xxj0onwoNxu6f48qpNFZgdQ9SVx.png",
+      "name": "Studio N",
+      "origin_country": "KR"
+    },
+    { "id": 154531, "logo_path": null, "name": "Big Ocean ENM", "origin_country": "" },
+    { "id": 154532, "logo_path": null, "name": "Super Moon Pictures", "origin_country": "KR" }
+  ],
+  "production_countries": [{ "iso_3166_1": "KR", "name": "South Korea" }],
+  "seasons": [
+    {
+      "air_date": "2022-01-27",
+      "episode_count": 1,
+      "id": 241678,
+      "name": "스페셜",
+      "overview": "스페셜 더 무비",
+      "poster_path": "/fukGX5x6QziLWLxsLDgzx8ecZhH.jpg",
+      "season_number": 0
+    },
+    {
+      "air_date": "2021-12-06",
+      "episode_count": 16,
+      "id": 214782,
+      "name": "Season 1",
+      "overview": "",
+      "poster_path": "/xrtBQvgw5eO6tixseOyLuTd4rX3.jpg",
+      "season_number": 1
+    }
+  ],
+  "spoken_languages": [{ "english_name": "Korean", "iso_639_1": "ko", "name": "한국어/조선말" }],
+  "status": "Ended",
+  "tagline": "너에게 빠져버렸던 그 해 초여름",
+  "type": "Scripted",
+  "vote_average": 8.468,
+  "vote_count": 47,
+  "watch/providers": {
+    "results": {
+      "KR": {
+        "link": "https://www.themoviedb.org/tv/135897/watch?locale=KR",
+        "flatrate": [
+          {
+            "logo_path": "/t2yyOv40HZeVlLjYsCsPHnWLk4W.jpg",
+            "provider_id": 8,
+            "provider_name": "Netflix",
+            "display_priority": 0
+          },
+          {
+            "logo_path": "/2ioan5BX5L9tz4fIGU93blTeFhv.jpg",
+            "provider_id": 356,
+            "provider_name": "wavve",
+            "display_priority": 3
+          },
+          {
+            "logo_path": "/mShqQVDhHoK7VUbfYG3Un6xE8Mv.jpg",
+            "provider_id": 1796,
+            "provider_name": "Netflix basic with Ads",
+            "display_priority": 30
+          }
+        ]
+      }
+    }
+}
