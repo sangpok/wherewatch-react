@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import { useDeferredValue } from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
@@ -42,11 +40,68 @@ const SearchBoxContainer = styled(DefaultStyle.Container)`
       : ''};
 `;
 
-const MainPage = () => {
+const createResource = (fetchPromise) => {
+  let status = 'pending'; // pending, fulfillment, error
+  let fetchResult = null;
+
+  const onFulfillment = (response) => {
+    status = 'fulfillment';
+    fetchResult = response;
+  };
+
+  const onRejected = (error) => {
+    status = 'error';
+    fetchResult = error;
+  };
+
+  const suspender = fetchPromise.then(onFulfillment, onRejected);
+
+  const read = () => {
+    switch (status) {
+      case 'pending':
+        throw suspender;
+      case 'error':
+        throw fetchResult;
+      default:
+        return fetchResult;
+    }
+  };
+
+  return { read };
+};
+
+const API_PATH = 'https://api.themoviedb.org/3';
+const API_KEY = 'ed6cc14023a74712f2b2ca3d7695bc00';
+const API_DEFAULT_OPTION = '&language=ko-KR&page=1&include_adult=false&region=ko';
+
+const fetchSearch = async (searchQuery, encoded = false) => {
+  return fetch(
+    `${API_PATH}/search/multi?api_key=${API_KEY}&query=${
+      encoded ? searchQuery : encodeURI(searchQuery)
+    }${API_DEFAULT_OPTION}`
+  )
+    .then((res) => res.json())
+    .then((data) => data);
+};
+
+const createSearchResultResource = (searchQuery) => {
+  return createResource(fetchSearch(searchQuery));
+};
+
+const SearchBoxComponent = () => {
+  const [searchResultResource, setSearchResultResource] = useState(null);
+
   const navigate = useNavigate();
   const [searchingMode, setSearchingMode] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const deferredQuery = useDeferredValue(searchQuery);
+
+  useEffect(() => {
+    if (!searchQuery) {
+      setSearchResultResource(null);
+    }
+
+    setSearchResultResource(createSearchResultResource(searchQuery));
+  }, [searchQuery]);
 
   const handleSearchQueryChange = (value) => {
     setSearchQuery(value);
@@ -64,18 +119,29 @@ const MainPage = () => {
     navigate(`/search?query=${searchQuery}`);
   };
 
+  if (!searchResultResource) {
+    return;
+  }
+
+  return (
+    <SearchBoxContainer searchingMode={searchingMode}>
+      <SearchBox
+        searchQuery={searchQuery}
+        searchResultResource={searchResultResource}
+        onSearchQueryChange={handleSearchQueryChange}
+        onSearchingModeChange={handleSearchingModeChange}
+        onSubmit={handleSubmit}
+      />
+    </SearchBoxContainer>
+  );
+};
+
+const MainPage = () => {
   return (
     <PageContainer>
       <MainContainer>
         <WherewatchLogo />
-        <SearchBoxContainer searchingMode={searchingMode}>
-          <SearchBox
-            searchQuery={searchQuery}
-            onSearchQueryChange={handleSearchQueryChange}
-            onSearchingModeChange={handleSearchingModeChange}
-            onSubmit={handleSubmit}
-          />
-        </SearchBoxContainer>
+        <SearchBoxComponent />
       </MainContainer>
     </PageContainer>
   );

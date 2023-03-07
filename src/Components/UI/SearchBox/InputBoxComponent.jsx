@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { DefaultStyle } from '../../UI';
 import { MdSearch, MdKeyboardBackspace } from 'react-icons/md';
 
-import { useFetchData } from './DataProvider';
+import { Suspense } from 'react';
 
 /* #region Styles */
 const InputBox = styled(DefaultStyle.Container)`
@@ -51,24 +51,19 @@ const SearchButton = styled(DefaultStyle.Button)`
 /* #endregion */
 
 /* #region ResultCount - Sub-component */
-const ResultCount = () => {
-  const { data: searchData, loading, searchQuery } = useFetchData();
+const ResultCount = ({ searchResultResource }) => {
+  const searchResult = searchResultResource.read();
 
-  if (loading) {
-    return !!searchQuery && <ResultCountLabel>Loading..</ResultCountLabel>;
-  }
-
-  return (
-    !!searchQuery && <ResultCountLabel>{searchData?.total_results || 0}개 결과</ResultCountLabel>
-  );
+  return <ResultCountLabel>{searchResult.total_results}개 결과</ResultCountLabel>;
 };
 /* #endregion */
 
-export default function InputBoxComponent(props) {
+export default function InputBoxComponent({ searchResultResource, ...props }) {
   const { BackButtonVisible, ResultCountLabelVisible } = props;
   const { onSearchingMode, onBackButtonClicked, onSearchButtonClicked } = props;
   const { searchQuery, onSearchQueryChange } = props;
 
+  /* #region Event handler */
   const handleInputedQueryChange = (e) => {
     onSearchQueryChange(e.target.value);
   };
@@ -106,6 +101,7 @@ export default function InputBoxComponent(props) {
   const handleSearchInputBlur = () => {
     // onSearchingMode(false);
   };
+  /* #endregion */
 
   return (
     <InputBox>
@@ -123,7 +119,11 @@ export default function InputBoxComponent(props) {
           onClick={handleSearchInputClick}
           onBlur={handleSearchInputBlur}
         />
-        {ResultCountLabelVisible && <ResultCount />}
+        {ResultCountLabelVisible && (
+          <Suspense fallback={<ResultCountLabel>Loading...</ResultCountLabel>}>
+            {searchResultResource && <ResultCount searchResultResource={searchResultResource} />}
+          </Suspense>
+        )}
         <SearchButton onClick={handleSearchButtonClick}>
           <MdSearch size="1rem" />
         </SearchButton>

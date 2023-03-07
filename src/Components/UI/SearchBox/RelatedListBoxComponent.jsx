@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
 import { DefaultStyle } from '../../UI';
-
-import { useFetchData } from './DataProvider';
 
 /* #region Styles */
 const ResultList = styled(DefaultStyle.Ul)`
@@ -110,15 +108,14 @@ const ResultItem = React.memo(({ id, image, name, date, type, media_type }) => {
 });
 /* #endregion */
 
-export default function RelatedListComponent() {
-  const { data: searchData } = useFetchData();
-
-  const isResultExist = !!searchData?.results?.length;
+const ResultListComponent = ({ searchResultResource }) => {
+  const searchResult = searchResultResource.read();
+  const isResultExist = !!searchResult.length;
 
   return (
     <ResultList isResultExist={isResultExist}>
-      {searchData?.results
-        ?.map((result) => {
+      {searchResult.results
+        .map((result) => {
           const mediaTypeMap = {
             tv: 'TV',
             movie: '영화',
@@ -154,10 +151,18 @@ export default function RelatedListComponent() {
 
           return mutatedResult;
         })
-        ?.sort((a, b) => b.date - a.date)
-        ?.map((result) => (
+        .sort((a, b) => b.date - a.date)
+        .map((result) => (
           <ResultItem key={result.id} {...result} />
         ))}
     </ResultList>
+  );
+};
+
+export default function RelatedListComponent({ searchResultResource }) {
+  return (
+    <Suspense fallback={<ResultList>Loading...</ResultList>}>
+      {searchResultResource && <ResultListComponent searchResultResource={searchResultResource} />}
+    </Suspense>
   );
 }

@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-import { useDeferredValue } from 'react';
 
 /** Style imported */
 import styled, { css } from 'styled-components';
 import { DefaultStyle } from '../../UI';
-
-/** Context Provider imported */
-import { DataProvider } from './DataProvider';
 
 /** Components imported */
 import InputBoxComponent from './InputBoxComponent';
@@ -28,10 +24,15 @@ const SearchBoxStyle = styled(DefaultStyle.Container)`
 `;
 /* #endregion */
 
-const SearchBox = ({ searchQuery, onSearchQueryChange, onSearchingModeChange, onSubmit }) => {
+const TestSearchBox = ({
+  searchQuery,
+  searchResultResource,
+  onSearchQueryChange,
+  onSearchingModeChange,
+  onSubmit,
+}) => {
   const [searchingMode, setSearchingMode] = useState(false);
   const [relatedListVisible, setRealtedListVisible] = useState(false);
-  const deferredQuery = useDeferredValue(searchQuery);
 
   /* #region SearchBoxComponent Events */
   const handleSearchQueryChange = (query) => {
@@ -82,17 +83,16 @@ const SearchBox = ({ searchQuery, onSearchQueryChange, onSearchingModeChange, on
   /* #endregion */
 
   return (
-    <DataProvider searchQuery={deferredQuery}>
-      <SearchBoxStyle searchingMode={searchingMode}>
-        <InputBoxComponent
-          searchQuery={searchQuery}
-          {...ComponentProperties}
-          {...ComponentEvents}
-        />
-        {relatedListVisible && <RelatedListComponent />}
-      </SearchBoxStyle>
-    </DataProvider>
+    <SearchBoxStyle searchingMode={searchingMode}>
+      <InputBoxComponent
+        searchResultResource={searchResultResource}
+        searchQuery={searchQuery}
+        {...ComponentProperties}
+        {...ComponentEvents}
+      />
+      {relatedListVisible && <RelatedListComponent searchResultResource={searchResultResource} />}
+    </SearchBoxStyle>
   );
 };
 
-export default SearchBox;
+export default TestSearchBox;
